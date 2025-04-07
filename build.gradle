@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'com.github.wasm-util:j-weditor:main-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register("runMain", JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    setMainClass("wasm.Main")
+    args("huffman_encoding", "calcFreqs", "0")
+}
